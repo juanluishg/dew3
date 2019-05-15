@@ -22,7 +22,7 @@ public class calcServletConError extends HttpServlet {
 
     private int operacion (char op, int n1, int n2)
 	{
-		int res = n1; // Hay m�ltiples opciones ...
+		int res = n1; // Hay múltiples opciones ...
       	switch(op)
     	{
         	case('+'): res+=n2; break;

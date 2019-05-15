@@ -30,14 +30,4 @@
     <servlet-name>cotizacion</servlet-name>
     <url-pattern>/cotizacion</url-pattern>
   </servlet-mapping>
-  <servlet>
-    <description></description>
-    <display-name>calcServletConError</display-name>
-    <servlet-name>calcServletConError</servlet-name>
-    <servlet-class>calcServletConError</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>calcServletConError</servlet-name>
-    <url-pattern>/calcServletConError</url-pattern>
-  </servlet-mapping>
 </web-app>
