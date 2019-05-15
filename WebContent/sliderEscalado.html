@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Ejemplo carrusel de imagenes</title>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script type="text/javascript">
+/*
+
+Move the #slideshow element to the top of #main.
+
+Write code to cycle through the list items inside the element; 
+fade one in, display it for a few seconds, then fade it out and 
+fade in the next one.
+
+When you get to the end of the list, start again at the beginning.
+
+Add a counter under the slideshow (2 of 3, etc.) $.fn.prevAll
+
+Add buttons under the counter that let you take manual control
+of the slideshow and stop the automatic animation.
+
+*/
+var slideshow = function() {
+	var timeout, manualMode = false,
+
+		$slideshow = $('#slideshow'),
+
+		$counter = $('<div/>').insertAfter($slideshow),
+
+		$controls = $('<div/>').insertAfter($slideshow),
+
+		$prevBtn = $('<input/>', {
+			type : 'button',
+			value : 'ant'
+		}).appendTo($controls),
+
+		$nextBtn = $('<input/>', {
+			type : 'button',
+			value : 'sig'
+		}).appendTo($controls),
+
+		$items = $slideshow.find('li').hide(),
+
+		total = $items.length, 
+
+		updateCounter = function(num) {
+			$counter.text(num + ' de ' + total);
+		},
+
+		getNextItem = function($item) {
+			return $item.next().length ? 
+				$item.next() : $items.first();
+		},
+
+		getPrevItem = function($item) {
+			return $item.prev().length ?
+				$item.prev() : $items.last();
+		},
+
+		showItem = function($currentItem, $itemToShow) {
+			var $itemToShow = 
+				$itemToShow || getNextItem($currentItem);
+
+			$currentItem.fadeOut(500, function() {
+				$itemToShow.fadeIn(500, fadeCallback);
+			});
+		},
+
+		fadeCallback = function() {
+			if (manualMode) { return; }
+
+			var $this = $(this),
+				$next = getNextItem($this),
+				num = $this.prevAll().length + 1;
+
+			// update the counter
+			updateCounter(num);
+
+			// set the timeout for showing
+			// the next item in 5 seconds
+			timeout = setTimeout(function() {
+				showItem($this, $next);
+			}, 5000);
+		},
+
+		handleBtnClick = function(e) {
+			console.log(e);
+			clearTimeout(timeout);
+
+			manualMode = true;
+
+			var $currentItem = $items.filter(':visible'),
+				$itemToShow = e.data.prev ? 
+					getPrevItem($currentItem) :
+					getNextItem($currentItem);
+
+			showItem($currentItem, $itemToShow);
+		};
+
+	$prevBtn.bind('click', { prev : true }, handleBtnClick);
+	$nextBtn.bind('click', { next : true }, handleBtnClick);
+
+	$items.eq(0).fadeIn(500, fadeCallback);
+	
+	return {
+		manualMode : manualMode
+	};
+};
+
+$(document).ready(function() {
+	var mySlideshow = slideshow();
+	mySlideshow.manualMode = false;
+	$('img').width(150);
+	$('img').height(200);
+});
+</script>
+</head>
+<body>
+<h1>Carrusel de im&aacute;genes</h1>
+<ul id="slideshow">
+    <li>
+      <h2>Imagen 1</h2>
+      <img src="imagenes/imagen1.png" alt="imagen 1" />
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    </li>
+    <li>
+      <h2>Imagen 2</h2>
+      <img src="imagenes/imagen2.png" alt="imagen 2" />
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    </li>
+    <li>
+      <h2>Imagen 3</h2>
+      <img src="imagenes/imagen3.png" alt="imagen 3" />
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    </li>
+	<li>
+      <h2>Imagen 4</h2>
+      <img src="imagenes/imagen4.png" alt="imagen 4" />
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    </li>
+  </ul>
+
+</body>
+</html>

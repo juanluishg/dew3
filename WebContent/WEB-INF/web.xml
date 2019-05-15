@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
+  <display-name>dew3</display-name>
+  <welcome-file-list>
+    <welcome-file>dew3.html</welcome-file>
+  </welcome-file-list>
+  	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Protected Context</web-resource-name>
+			<url-pattern>/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>mirol</role-name>
+		</auth-constraint>
+		<user-data-constraint>
+			<transport-guarantee>CONFIDENTIAL</transport-guarantee>
+		</user-data-constraint>
+	</security-constraint>
+	<login-config>
+		<auth-method>BASIC</auth-method>
+		<realm-name>Proteccion de dew3</realm-name>
+	</login-config>
+  <servlet>
+    <description></description>
+    <display-name>cotizacion</display-name>
+    <servlet-name>cotizacion</servlet-name>
+    <servlet-class>cotizacionLocal</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>cotizacion</servlet-name>
+    <url-pattern>/cotizacion</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>calcServlet</display-name>
+    <servlet-name>calcServlet</servlet-name>
+    <servlet-class>calcServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>calcServlet</servlet-name>
+    <url-pattern>/calcServlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>calcServletConError</display-name>
+    <servlet-name>calcServletConError</servlet-name>
+    <servlet-class>calcServletConError</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>calcServletConError</servlet-name>
+    <url-pattern>/calcServletConError</url-pattern>
+  </servlet-mapping>
+</web-app>
