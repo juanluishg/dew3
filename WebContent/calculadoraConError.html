@@ -9,8 +9,6 @@
             $form = $(this);                                                         // Wrap the form in a jQuery object first (so that special functions are available).
             $.post($form.attr('action'), $form.serialize(), function(responseText) { // Execute Ajax POST request on URL as set in <form action> with all input values of the form as parameters and execute the following function with Ajax response text...
                 $('#result').text(responseText);                                     // Locate HTML element with ID "result" and set its text content with responseText.
-            }, function(error){
-            	alert(error);
             });
             return false;                                                            // Prevent execution of the synchronous (default) submit action of the form.
         });
