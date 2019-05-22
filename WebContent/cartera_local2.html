@@ -66,7 +66,7 @@ function getInfo(q, recalcular){
 			else{
 				$("#tabla").append("<tr><td>" + datos.empresas[c].nom + "</td><td>" +
 					stock + "</td><td id='cotiz_" +
-				  stock + "'>" + stockInfo.msg + "</td><td><input id='titulo_"+stock+"' type='number' value='0' /></td></tr>");
+				  stock + "'>" + stockInfo.msg + "</td><td><input id='titulo_"+stock+"' type='number' value='0' onchange='calcular_dinero()'/></td></tr>");
 			}
 			c++;
 		}	

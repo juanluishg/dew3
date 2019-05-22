@@ -3,16 +3,10 @@
 <head>
 <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
 <title>Cotizacion de valores</title>
-<style>
-table, td{
-	border:solid black 1px;
-}
-th, #resultado{
-	text-align:center;
-	font-weight:bold;
-}
-</style>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="js/kickstart.js"></script> <!-- KICKSTART -->
+<link rel="stylesheet" href="css/kickstart.css" media="all" />
+
 <script type="text/javascript">
 var datos = {
 	"empresas":[
@@ -34,6 +28,7 @@ $(document).ready(function(){
 	$("#info").html("<br /><table id='tabla'><thead><tr><th>Empresa</th><th>C&oacute;digo</th>"+
 	  "<th>Cotizaci&oacute;n</th><th>T&iacute;tulos</th></tr></thead><tbody></tbody></table>");
 	recuperar_cotizacion(false);
+	setInterval(function(){recuperar_cotizacion(true);},10000);
 });
 
 function calcular_dinero(){
@@ -50,7 +45,8 @@ function recuperar_cotizacion(recalcular){
 	var query = [];
 	for(i = 0;i < datos.empresas.length;i++) query.push(datos.empresas[i].cod);
 	getInfo(query, recalcular);	
-	if(!recalcular) $("#info").append("<br /><input type='button' id='recalcular' value='Recalcular' onclick='calcular_dinero()'/><br /><h3 id='total'>Total: 0$</h3><br />");
+	if(!recalcular) $("#info").append("<br /><h3 id='total'>Total: 0$</h3><br />");
+	else calcular_dinero();
 }
 
 function getInfo(q, recalcular){
@@ -66,7 +62,7 @@ function getInfo(q, recalcular){
 			else{
 				$("#tabla").append("<tr><td>" + datos.empresas[c].nom + "</td><td>" +
 					stock + "</td><td id='cotiz_" +
-				  stock + "'>" + stockInfo.msg + "</td><td><input id='titulo_"+stock+"' type='number' value='0' /></td></tr>");
+				  stock + "'>" + stockInfo.msg + "</td><td><input id='titulo_"+stock+"' type='number' value='0' onchange='calcular_dinero()'/></td></tr>");
 			}
 			c++;
 		}	
@@ -82,6 +78,6 @@ function getInfo(q, recalcular){
 </head>
 <body>
 <h1>Cotizaci&oacute;n de valores</h1>
-<div id="info"></div>
+<div id="info" class="grid flex"></div>
 </body>
 </html>
