@@ -1,4 +1,6 @@
 import java.io.IOException;
+import java.io.PrintWriter;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,15 +22,15 @@ public class calcServletConError extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
-    private int operacion (char op, int n1, int n2)
+    private double operacion (char op, double num1, double num2)
 	{
-		int res = n1; // Hay múltiples opciones ...
+		double res = num1; // Hay múltiples opciones ...
       	switch(op)
     	{
-        	case('+'): res+=n2; break;
-        	case('-'): res-=n2; break;
-        	case('*'): res*=n2; break;
-        	case('/'): res/=n2; break;
+        	case('+'): res+=num2; break;
+        	case('-'): res-=num2; break;
+        	case('*'): res*=num2; break;
+        	case('/'): res/=num2; break;
         	default: res=-1;
     	}
     	return res;
@@ -36,22 +38,76 @@ public class calcServletConError extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+    	response.sendError(446);
+    }
+	protected void patata(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
     	try {
-    		int num1 = Integer.parseInt(request.getParameter("num1"));
-    		int num2 = Integer.parseInt(request.getParameter("num2"));
+    		
+    		double num1 = Double.parseDouble(request.getParameter("num1"));
+    		double num2 = Double.parseDouble(request.getParameter("num2"));
     		char operator = request.getParameter("operator").charAt(0);
-    		int sum = operacion(operator, num1, num2);
+    		double sum = 0;
+    		
+    	    sum = operacion(operator, num1, num2);
+    		if(operator == '/' && num2 == 0) {response.sendError(446, "Operación inválida");}
 
     		if(sum==-1) response.sendError(445, "Operador no valido");
     		else {    		
-	    		response.setContentType("text/plain");
-	    		response.setCharacterEncoding("UTF-8");
-	    		response.getWriter().write(String.valueOf(sum));
+    			PrintWriter out = response.getWriter();
+    			out.println("\n" + 
+    			"<!DOCTYPE html>\n"+
+    			"<html>" +
+    			"<head><title>Calculadora</title>\n"+
+
+    			"<script src='https://code.jquery.com/jquery-3.4.1.min.js'></script>\n"+
+    			"<script>\n"+
+    			    "$(document).ready(function() { \n"+                                                  
+    			        "$('#calculator').submit(function() {                                         \n"+
+    			            "$form = $(this);                                                         \n"+
+    			            "$.post($form.attr('action'), $form.serialize()).done( function(responseText) { \n"+
+    			                "$('#result').text(responseText);                                     \n"+
+    			            "})\n"+
+    			            ".fail(function (error, textStatus){\n"+
+    			            	"alert(error +  ' ' + textStatus);\n"+
+    			            "}\n"+
+    			            "return false;   });});\n"+
+    			    
+    			    
+    			  
+    			"</script>\n"+
+
+
+    			"</head>\n"+
+    			"<body>\n"+
+    			 "<form id='calculator' action='calculatorErr' method='post'>\n"+
+    			    "<p>\n"+
+    			        "<input name='num1' type='text'  value='"+num1+"'/>\n"+
+    			       " <select name='operator'>\\n"+
+    			            "<option value='+'> + </option>\n"+
+    			            "<option value='-'> - </option>\n"+
+    			            "<option value='*'> * </option>\n"+
+    			            "<option value='/'> / </option>\n"+
+    			        "</select>\n"+
+    			        "<input name='num2' type='text'  value='"+num2+"'/>\n"+
+    			        "<button type='submit'>Calcular</button>\n"+
+    			    "</p>\n"+
+    			    "<p>Result: <span id='result'>" + sum + "</span></p>\n"+
+    			"</form>\n"+
+    			"</body>\n"+
+    			"</html>\n");
+
     		}
-    	}catch (Exception e) {
-			response.sendError(444,"Valor introduccido no valido");
+    	}catch (NullPointerException e1) {
+			response.sendError(444,"Valor introduccido no valido o no hay valor");
+		}catch (Exception e) {
+			response.sendError(446,"Operación inválida");
+		
 		}
+    	
+    	
     }
 }
