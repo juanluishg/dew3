@@ -13,8 +13,14 @@
                 $('#result').text(resultado);                                               // Locate HTML element with ID "result" and set its text content with responseText.
             })
             .fail(function (jqxhr, textStatus, error){
-            	var err = jqxhr.statusText;
-            	alert("Error " + jqxhr.status  + " " + err);             
+            	var mensaje = "";
+            	switch(jqxhr.status){
+            	case 444: mensaje = "Missing or not valid input";break;
+            	case 445: mensaje = "Invalid operator";break;
+            	case 446: mensaje = "Invalid operation";break;
+            	default: mensaje = "Critical error, please contact the server administrator"
+            	}
+            	alert("Error " + jqxhr.status  + " " + mensaje);             
             })
             return false;                                                            // Prevent execution of the synchronous (default) submit action of the form.
         });
