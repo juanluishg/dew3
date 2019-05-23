@@ -39,11 +39,8 @@ public class calcServletConError extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
     
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-    	response.sendError(446);
-    }
-	protected void patata(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
     	try {
     		
@@ -58,7 +55,8 @@ public class calcServletConError extends HttpServlet {
     		if(sum==-1) response.sendError(445, "Operador no valido");
     		else {    		
     			PrintWriter out = response.getWriter();
-    			out.println("\n" + 
+    			out.println(sum);
+    			/*out.("\n" + 
     			"<!DOCTYPE html>\n"+
     			"<html>" +
     			"<head><title>Calculadora</title>\n"+
@@ -71,9 +69,9 @@ public class calcServletConError extends HttpServlet {
     			            "$.post($form.attr('action'), $form.serialize()).done( function(responseText) { \n"+
     			                "$('#result').text(responseText);                                     \n"+
     			            "})\n"+
-    			            ".fail(function (error, textStatus){\n"+
-    			            	"alert(error +  ' ' + textStatus);\n"+
-    			            "}\n"+
+    			            ".fail(function (jqxhr, textStatus, error){\n"+
+    			            	"alert(jqxhr.status +  ' ' + jqxhr.statusText);\n"+
+    			            "})\n"+
     			            "return false;   });});\n"+
     			    
     			    
@@ -98,14 +96,15 @@ public class calcServletConError extends HttpServlet {
     			    "<p>Result: <span id='result'>" + sum + "</span></p>\n"+
     			"</form>\n"+
     			"</body>\n"+
-    			"</html>\n");
+    			"</html>\n", sum);*/
 
     		}
     	}catch (NullPointerException e1) {
 			response.sendError(444,"Valor introduccido no valido o no hay valor");
+		}catch (NumberFormatException e2) {
+			response.sendError(444, "Introduce un número");
 		}catch (Exception e) {
 			response.sendError(446,"Operación inválida");
-		
 		}
     	
     	

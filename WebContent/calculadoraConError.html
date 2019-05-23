@@ -4,16 +4,18 @@
 
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script>
+
     $(document).ready(function() {                                                   // When the HTML DOM is ready loading, then execute the following function...
         $('#calculator').submit(function() {                                         // Locate HTML element with ID "calculator" and execute the following function on its "submit" event...
             $form = $(this);                                                         // Wrap the form in a jQuery object first (so that special functions are available).
             $.post($form.attr('action'), $form.serialize())
-            .done( function(responseText) { // Execute Ajax POST request on URL as set in <form action> with all input values of the form as parameters and execute the following function with Ajax response text...
-                $('#result').text(responseText);                                               // Locate HTML element with ID "result" and set its text content with responseText.
+            .done(function(resultado) { // Execute Ajax POST request on URL as set in <form action> with all input values of the form as parameters and execute the following function with Ajax response text...
+                $('#result').text(resultado);                                               // Locate HTML element with ID "result" and set its text content with responseText.
             })
             .fail(function (jqxhr, textStatus, error){
-            	alert(error + " " + textStatus);             
-            }
+            	var err = jqxhr.statusText;
+            	alert("Error " + jqxhr.status  + " " + err);             
+            })
             return false;                                                            // Prevent execution of the synchronous (default) submit action of the form.
         });
     });
